@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class InventoryService  {
   
     private final InventoryRepository inventoryRepository;
+    private final UserInfoRepository  userInfoRepository;
 
     public Inventory addInventory(Inventory inventory) {
         Inventory inventorySaved = inventoryRepository.save(inventory);
@@ -32,6 +34,27 @@ public class InventoryService  {
 
     public Inventory addInventoryWithCheck(Inventory inventory) {
         Inventory inventorySaved = inventoryRepository.save(inventory);
+
+        Optional<Inventory> inventoryOptional = inventoryRepository.findById(inventorySaved.getId());
+
+        if (inventoryOptional.isPresent()) {
+            log.info("inventoryOptional.get() : " + inventoryOptional.get());
+            return inventoryOptional.get();
+        } else {
+            log.info("inventoryOptional.get() : " + inventoryOptional);
+            return null;
+        }
+    }
+
+    @Transactional
+    public Inventory addInventoryWithCheckTransactional(Inventory inventory) {
+        Inventory inventorySaved = inventoryRepository.save(inventory);
+
+        // dummy işlem
+        UserInfo userInfo =new UserInfo();
+        userInfo.setName("deneme");
+        userInfo.setPassword("deneme");
+        userInfoRepository.save(userInfo);
 
         Optional<Inventory> inventoryOptional = inventoryRepository.findById(inventorySaved.getId());
 
