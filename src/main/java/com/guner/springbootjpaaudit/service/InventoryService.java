@@ -7,6 +7,7 @@ import com.guner.springbootjpaaudit.model.UserInfoDetails;
 import com.guner.springbootjpaaudit.repository.InventoryRepository;
 import com.guner.springbootjpaaudit.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class InventoryService  {
   
     private final InventoryRepository inventoryRepository;
@@ -26,6 +28,20 @@ public class InventoryService  {
     public Inventory addInventory(Inventory inventory) {
         Inventory inventorySaved = inventoryRepository.save(inventory);
         return inventorySaved;
+    }
+
+    public Inventory addInventoryWithCheck(Inventory inventory) {
+        Inventory inventorySaved = inventoryRepository.save(inventory);
+
+        Optional<Inventory> inventoryOptional = inventoryRepository.findById(inventorySaved.getId());
+
+        if (inventoryOptional.isPresent()) {
+            log.info("inventoryOptional.get() : " + inventoryOptional.get());
+            return inventoryOptional.get();
+        } else {
+            log.info("inventoryOptional.get() : " + inventoryOptional);
+            return null;
+        }
     }
 
 

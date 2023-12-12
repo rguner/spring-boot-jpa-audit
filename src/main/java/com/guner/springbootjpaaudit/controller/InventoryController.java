@@ -27,7 +27,7 @@ public class InventoryController {
 
     @PostMapping("/addNewInventory")
     public Inventory addNewInventory(@RequestBody Inventory inventory) {
-        return inventoryService.addInventory(inventory);
+        return inventoryService.addInventoryWithCheck(inventory);
     }
 
     @GetMapping
