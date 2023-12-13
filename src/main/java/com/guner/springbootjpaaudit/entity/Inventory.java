@@ -19,8 +19,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 public class Inventory {
   
     @Id
