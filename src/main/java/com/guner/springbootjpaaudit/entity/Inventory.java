@@ -45,7 +45,7 @@ public class Inventory {
     private String createdBy;
 
     @ManyToOne
-    //@JoinColumn(name = "inventory_owner", insertable = true, updatable = false) // insert-update durumunda bu alana yazmaz.
+    //@JoinColumn(name = "inventory_owner", insertable = false, updatable = false) // insert-update durumunda bu alana yazmaz.
     @JoinColumn(name = "inventory_owner")
     private InventoryOwner inventoryOwner;
   
