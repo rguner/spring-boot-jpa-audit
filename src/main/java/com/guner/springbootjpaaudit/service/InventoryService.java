@@ -2,8 +2,10 @@
 package com.guner.springbootjpaaudit.service;
 
 import com.guner.springbootjpaaudit.entity.Inventory;
+import com.guner.springbootjpaaudit.entity.InventoryOwner;
 import com.guner.springbootjpaaudit.entity.UserInfo;
 import com.guner.springbootjpaaudit.model.UserInfoDetails;
+import com.guner.springbootjpaaudit.repository.InventoryOwnerRepository;
 import com.guner.springbootjpaaudit.repository.InventoryRepository;
 import com.guner.springbootjpaaudit.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ import java.util.Optional;
 public class InventoryService  {
   
     private final InventoryRepository inventoryRepository;
-    private final UserInfoRepository  userInfoRepository;
+    private final InventoryOwnerRepository inventoryOwnerRepository;
 
     public Inventory addInventory(Inventory inventory) {
         Inventory inventorySaved = inventoryRepository.save(inventory);
@@ -33,6 +35,11 @@ public class InventoryService  {
     }
 
     public Inventory addInventoryWithCheck(Inventory inventory) {
+        Optional<InventoryOwner> inventoryOwnerOptional = inventoryOwnerRepository.findById(inventory.getInventoryOwner().getId());
+
+        if (inventoryOwnerOptional.isPresent()) {
+            inventory.setInventoryOwner(inventoryOwnerOptional.get());
+        }
         Inventory inventorySaved = inventoryRepository.save(inventory);
 
         Optional<Inventory> inventoryOptional = inventoryRepository.findById(inventorySaved.getId());
@@ -48,6 +55,11 @@ public class InventoryService  {
 
     @Transactional
     public Inventory addInventoryWithCheckTransactional(Inventory inventory) {
+        Optional<InventoryOwner> inventoryOwnerOptional = inventoryOwnerRepository.findById(inventory.getInventoryOwner().getId());
+
+        if (inventoryOwnerOptional.isPresent()) {
+            inventory.setInventoryOwner(inventoryOwnerOptional.get());
+        }
         Inventory inventorySaved = inventoryRepository.save(inventory);
 
         Optional<Inventory> inventoryOptional = inventoryRepository.findById(inventorySaved.getId());
