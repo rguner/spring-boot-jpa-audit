@@ -65,6 +65,18 @@ public class InventoryService  {
         }
     }
 
+    @Transactional
+    public Inventory updateInventoryWithCheckTransactional(int inventoryId,String name) {
+        Optional<Inventory> inventoryOptional = inventoryRepository.findById(inventoryId);
+        if (inventoryOptional.isPresent()) {
+            Inventory inventory = inventoryOptional.get();
+            inventory.setName(name);
+            Inventory inventorySaved = inventoryRepository.save(inventory);
+            return inventorySaved;
+        } else {
+            return null;
+        }
+    }
 
     public List<Inventory> getAllInventory() {
         return inventoryRepository.findAll();
