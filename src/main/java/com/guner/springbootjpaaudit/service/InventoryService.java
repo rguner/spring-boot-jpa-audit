@@ -50,12 +50,6 @@ public class InventoryService  {
     public Inventory addInventoryWithCheckTransactional(Inventory inventory) {
         Inventory inventorySaved = inventoryRepository.save(inventory);
 
-        // dummy işlem
-        UserInfo userInfo =new UserInfo();
-        userInfo.setName("deneme");
-        userInfo.setPassword("deneme");
-        userInfoRepository.save(userInfo);
-
         Optional<Inventory> inventoryOptional = inventoryRepository.findById(inventorySaved.getId());
 
         if (inventoryOptional.isPresent()) {

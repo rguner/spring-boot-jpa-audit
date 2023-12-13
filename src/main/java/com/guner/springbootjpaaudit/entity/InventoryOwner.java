@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,29 +22,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@EntityListeners(AuditingEntityListener.class)
-public class Inventory {
+public class InventoryOwner {
   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; 
-    private String name; 
-    private String description;
-
-    @Column(name = "created_date", nullable = false, updatable = false)
-    @CreatedDate
-    private long createdDate;
-
-    @Column(name = "modified_date")
-    @LastModifiedDate
-    private long modifiedDate;
-
-    @Column(name = "created_by")
-    @CreatedBy
-    private String createdBy;
-
-    @ManyToOne
-    @JoinColumn(name = "inventory_owner", insertable = false, updatable = false)
-    private InventoryOwner inventoryOwner;
-  
+    private String name;
 } 
